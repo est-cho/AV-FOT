@@ -5,6 +5,7 @@ from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
 from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
+from pybricks.messaging import BluetoothMailboxClient, NumericMailbox
 
 # Initialize actuators and sensors
 left_motor = Motor(Port.B)
@@ -43,6 +44,16 @@ color_derivative = 0.0
 color_integral = 0.0
 color_last_deviation = 0.0
 
+# Initialize Bluetooth client
+client = BluetoothMailboxClient()
+mbox_id = NumericMailbox('ego', client)
+
+SERVER = 'ev3-veh1'
+print('establishing connection...')
+
+client.connect(SERVER)
+print('ext veh connected!')
+
 watch = StopWatch()
 watch.reset()
 
@@ -70,7 +81,7 @@ while True:
 
     end_time = watch.time()
 
-    print('drive-speed', drive_speed)
+    print('distance: ', distance)
 
     wait_time = 0
     duration = end_time-time

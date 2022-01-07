@@ -5,6 +5,7 @@ from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
 from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
+from pybricks.messaging import BluetoothMailboxServer, NumericMailbox
 
 # Initialize actuators and sensors
 left_motor = Motor(Port.B)
@@ -20,7 +21,7 @@ COLOR_THRESHOLD = (BLACK + WHITE) / 2
 LOOP_TIME = 100
 
 # Speed Configuration
-DRIVE_SPEED = 200
+DRIVE_SPEED = 60
 
 # Color PID Controller Constants
 COLOR_PROPORTIONAL_GAIN = 0.4
@@ -32,6 +33,16 @@ color_deviation = 0.0
 color_integral = 0.0
 color_derivative = 0.0
 color_last_deviation = 0.0
+
+# Initialize Bluetooth server
+server = BluetoothMailboxServer()
+mbox_id = NumericMailbox('ext', server)
+
+print('waiting for clients')
+server.wait_for_connection(1)
+print('connected!')
+for _ in range(10):
+    mbox_id.send(1)
 
 watch = StopWatch()
 watch.reset()
