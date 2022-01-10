@@ -21,7 +21,7 @@ COLOR_THRESHOLD = (BLACK + WHITE) / 2
 LOOP_TIME = 100
 
 # Speed Configuration
-DRIVE_SPEED = 60
+DRIVE_SPEED = 140
 
 # Color PID Controller Constants
 COLOR_PROPORTIONAL_GAIN = 0.4
@@ -47,9 +47,21 @@ for _ in range(10):
 watch = StopWatch()
 watch.reset()
 
+stop_count = 0
+
 while True:
     time = watch.time()
     color = color_sensor.reflection()
+    distance = distance_sensor.distance()
+    print(distance)
+    if distance < 280:
+        stop_count += 1
+        if stop_count > 5:
+            robot.drive(0, 0)
+            exit
+    else:
+        stop_count = 0
+    
 
     # Color PID Controller
     color_deviation = color - COLOR_THRESHOLD

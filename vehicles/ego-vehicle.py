@@ -24,20 +24,18 @@ LOOP_TIME = 100
 DISTANCE_THRESHOLD = 200
 
 # Speed PID Controller Constants
-SPEED_PROPORTIONAL_GAIN = 0.4
+SPEED_PROPORTIONAL_GAIN = 1.2
 SPEED_INTEGRAL_GAIN = 0
 SPEED_DERIVATIVE_GAIN = 0.3
 
 # Color PID Controller Constants
-COLOR_PROPORTIONAL_GAIN = 0.4
+COLOR_PROPORTIONAL_GAIN = 0.6
 COLOR_INTEGRAL_GAIN = 0.1
 COLOR_DERIVATIVE_GAIN = 0.5
 
 # Data Log
-# x = value of COLOR_PROPORTIONAL_GAIN
-# y = value of SPEED_PROPORTIONAL_GAIN
 # z = value of external vehicle speed (external-vehicle.py DRIVE_SPEED)
-LOG_NAME = 'x,y,z'
+LOG_NAME = 'log_' + str(COLOR_PROPORTIONAL_GAIN) + '_' + str(SPEED_PROPORTIONAL_GAIN) + '_140'
 # dataLog = DataLog('time', 'color', 'angle', 'distance', 'speed', name=LOG_NAME, timestamp=True)
 dataLogAll = DataLog('time', 'color', 'angle', 'distance', 'speed', 'color_dev', 'color_int', 'color_der', 'speed_dev', 'speed_int', 'speed_der', name=LOG_NAME + '_all', timestamp=True)
 
@@ -87,11 +85,11 @@ while True:
     color_last_deviation = color_deviation
     speed_last_deviation = speed_deviation
 
-    end_time = watch.time()
-
     print('distance: ', distance)
     # dataLog.log(time, color, turn_rate, distance, drive_speed)
     dataLogAll.log(time, color, turn_rate, distance, drive_speed, color_deviation, color_integral, color_derivative, speed_deviation, speed_integral, speed_derivative)
+
+    end_time = watch.time()
 
     wait_time = 0
     duration = end_time-time
