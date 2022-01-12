@@ -18,10 +18,10 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=118)
 BLACK = 3
 WHITE = 63
 COLOR_THRESHOLD = (BLACK + WHITE) / 2
-LOOP_TIME = 100
+LOOP_TIME = 50
 
 # Speed Configuration
-DRIVE_SPEED = 140
+DRIVE_SPEED = 200   # FOT Z axis
 
 # Color PID Controller Constants
 COLOR_PROPORTIONAL_GAIN = 0.4
@@ -56,7 +56,7 @@ while True:
     print(distance)
     if distance < 280:
         stop_count += 1
-        if stop_count > 5:
+        if stop_count > 3:
             robot.drive(0, 0)
             exit
     else:
