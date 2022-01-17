@@ -24,18 +24,18 @@ LOOP_TIME = 50
 DISTANCE_THRESHOLD = 200
 
 # Speed PID Controller Constants
-SPEED_PROPORTIONAL_GAIN = 1.8   # FOT Y axis
+SPEED_PROPORTIONAL_GAIN = 0.9   # FOT Y axis
 SPEED_INTEGRAL_GAIN = 0
 SPEED_DERIVATIVE_GAIN = 0.3
 
 # Color PID Controller Constants
-COLOR_PROPORTIONAL_GAIN = 0.8   # FOT X axis
+COLOR_PROPORTIONAL_GAIN = 0.4   # FOT X axis
 COLOR_INTEGRAL_GAIN = 0.1
 COLOR_DERIVATIVE_GAIN = 0.5
 
 # Data Log
 # z = value of external vehicle speed (external-vehicle.py DRIVE_SPEED)
-LOG_NAME = 'log_' + str(COLOR_PROPORTIONAL_GAIN) + '_' + str(SPEED_PROPORTIONAL_GAIN) + '_200'
+LOG_NAME = 'log_' + str(COLOR_PROPORTIONAL_GAIN) + '_' + str(SPEED_PROPORTIONAL_GAIN) + '_180'
 # dataLog = DataLog('time', 'color', 'angle', 'distance', 'speed', name=LOG_NAME, timestamp=True)
 dataLogAll = DataLog('time', 'color', 'angle', 'distance', 'speed', 'color_dev', 'color_int', 'color_der', 'speed_dev', 'speed_int', 'speed_der', name=LOG_NAME + '_all', timestamp=True)
 
@@ -57,8 +57,13 @@ mbox_id = NumericMailbox('ego', client)
 SERVER = 'ev3-veh1'
 print('establishing connection...')
 
-client.connect(SERVER)
-print('ext veh connected!')
+while True:
+    try:
+        client.connect(SERVER)
+    except:
+        continue
+    print('ext veh connected!')
+    break
 
 watch = StopWatch()
 watch.reset()
