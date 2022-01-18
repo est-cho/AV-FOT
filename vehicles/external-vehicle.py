@@ -21,7 +21,7 @@ COLOR_THRESHOLD = (BLACK + WHITE) / 2
 LOOP_TIME = 50
 
 # Speed Configuration
-DRIVE_SPEED = 200   # FOT Z axis
+DRIVE_SPEED = 180   # FOT Z axis
 
 # Color PID Controller Constants
 COLOR_PROPORTIONAL_GAIN = 0.4
