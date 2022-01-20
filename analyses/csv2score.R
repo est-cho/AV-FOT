@@ -2,6 +2,9 @@ rm(list = ls())
 
 library(dplyr)
 library(ggplot2)
+library(ggtext)
+
+
 
 if (substring(getwd(),nchar(getwd())-15,nchar(getwd()))=='/AV-FOT/analyses'){
   setwd("../")
@@ -71,136 +74,25 @@ ggplot(df,aes(x=metric1,y=metric2,color=color)) +
   ylab("Adaptive Cruise Control Metric") +
   theme_bw()
 
-################################################################################
-# Filter df with two fixed configs
-# Ex) if x_val == 0, then fix y and z axes  
-filter_and_boxplot <- function(x_val, y_val, z_val, metric_type) {
-  if (x_val == 0) {
-    # Config axis: x
-    filtered_df <- df %>% 
-      filter(y == y_val, z == z_val)
-    filtered_df$x = as.factor(filtered_df$x)
-    
-    if (metric_type == 'lka') {
-      ggplot(data=filtered_df, aes(x=x, y=metric1, fill=x)) + 
-        geom_boxplot() +
-        ylab("Lane Keeping Assistant Metric") +
-        theme_bw()
-    } else if (metric_type == 'acc') {
-      ggplot(data=filtered_df, aes(x=x, y=metric2, fill=x)) + 
-        geom_boxplot() +
-        ylab("Adaptive Cruise Control Metric") +
-        theme_bw()
-    }
-    
-  } else if (y_val == 0) {
-    # Config axis: y
-    filtered_df <- df %>% 
-      filter(x == x_val, z == z_val)
-    filtered_df$y = as.factor(filtered_df$y)
-    
-    if (metric_type == 'lka') {
-      ggplot(data=filtered_df, aes(x=y, y=metric1, fill=y)) + 
-        geom_boxplot() +
-        ylab("Lane Keeping Assistant Metric") +
-        theme_bw()
-    } else if (metric_type == 'acc') {
-      ggplot(data=filtered_df, aes(x=y, y=metric2, fill=y)) + 
-        geom_boxplot() +
-        ylab("Adaptive Cruise Control Metric") +
-        theme_bw()
-    }
-    
-  } else {
-    # Config axis: z
-    filtered_df <- df %>% 
-      filter(x == x_val, y == y_val)
-    filtered_df$z = as.factor(filtered_df$z)
-    
-    if (metric_type == 'lka') {
-      ggplot(data=filtered_df, aes(x=z, y=metric1, fill=z)) + 
-        geom_boxplot() +
-        ylab("Lane Keeping Assistant Metric") +
-        theme_bw()
-    } else if (metric_type == 'acc') {
-      ggplot(data=filtered_df, aes(x=z, y=metric2, fill=z)) + 
-        geom_boxplot() +
-        ylab("Adaptive Cruise Control Metric") +
-        theme_bw()
-    }
-  }
-}
+# Filter 3 configurations for scatter plot
+x_width <- 800
+y_height <- 600
+font_size <- 25
+filename <- "Scatter_03"
 
-filter_and_boxplot(0, 0.6, 220, 'lka') 
-filter_and_boxplot(0, 0.6, 200, 'lka')
-filter_and_boxplot(0, 1.2, 220, 'lka')
-filter_and_boxplot(0, 1.2, 200, 'lka')
-filter_and_boxplot(0, 1.8, 220, 'lka')
-filter_and_boxplot(0, 1.8, 200, 'lka')
+filtered_df <- df %>% filter((x==0.8 & y==1.8 & z==220) | (x==0.4 & y==0.6 & z==220) | (x==0.8 & y==1.8 & z==140))
+filtered_df$config <- paste('(',filtered_df$x,',',filtered_df$y,',',filtered_df$z,')',sep='')
+filtered_df$config <- as.factor(filtered_df$config)
 
-filter_and_boxplot(0, 0.6, 220, 'acc') 
-filter_and_boxplot(0, 0.6, 200, 'acc')
-filter_and_boxplot(0, 1.2, 220, 'acc') # Not flat
-filter_and_boxplot(0, 1.2, 200, 'acc')
-filter_and_boxplot(0, 1.8, 220, 'acc')
-filter_and_boxplot(0, 1.8, 200, 'acc')
+png(file=paste(image_path, filename,".png",sep=""),width = x_width, height = y_height)
 
-filter_and_boxplot(0.4, 0, 220, 'lka') 
-filter_and_boxplot(0.4, 0, 200, 'lka')
-filter_and_boxplot(0.6, 0, 220, 'lka')
-filter_and_boxplot(0.6, 0, 200, 'lka')
-filter_and_boxplot(0.8, 0, 220, 'lka')
-filter_and_boxplot(0.8, 0, 200, 'lka')
+ggplot(filtered_df,aes(x=metric1,y=metric2,group=config)) + 
+  geom_point(aes(color=config,shape=config,stroke=3),size=8) + 
+  scale_shape_manual(values=c(0,1,2),name="Config.(x,y,z)") +
+  xlab("Lane Keeping MSE") +
+  ylab("Adaptive Cruise Control MSE") +
+  theme(panel.background = element_blank(),axis.line=element_line(size=0.5),text=element_text(family="Times New Roman", face="bold", size=font_size),legend.key = element_rect(fill=NA,size=5),legend.key.height=unit(1.5,'cm')) +
+  scale_color_discrete(name="Config.(x,y,z)") +
+  guides(shape = guide_legend(override.aes = list(stroke = 3)))
 
-filter_and_boxplot(0.4, 0, 220, 'acc') 
-filter_and_boxplot(0.4, 0, 200, 'acc')
-filter_and_boxplot(0.6, 0, 220, 'acc')
-filter_and_boxplot(0.6, 0, 200, 'acc')
-filter_and_boxplot(0.8, 0, 220, 'acc')
-filter_and_boxplot(0.8, 0, 200, 'acc')
-
-################################################################################
-
-library(plot3D)
-library(lattice)
-library(scatterplot3d)
-
-fixed_z <- df %>%
-  filter(z == 220)
-
-max(fixed_z$metric1)
-min(fixed_z$metric1)
-s3d <- scatterplot3d(fixed_z$x, fixed_z$y, fixed_z$metric1,pch=16, cex.symbols=1,
-                     xlab = 'x', ylab='y', zlab='Lane Keeping Assistant Metric')
-
-grouped_df %>% filter(z==220) %>% arrange(desc(mean_metric2))
-grouped_df %>% filter(z==220) %>% arrange(mean_metric2)
-
-
-wireframe(metric1 ~ x*y, data=fixed_z, scales=list(arrows=FALSE), zlim = c(0, 180),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')),
-          zlab = 'Metric 1')
-
-wireframe(metric1 ~ y*x, data=fixed_z, scales=list(arrows=FALSE), zlim = c(0, 180),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = 'Lane Keeping Assistant Metric')
-
-wireframe(metric2 ~ x*y, data=fixed_z, scales=list(arrows=FALSE), zlim = c(90000, 200000),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = 'Adaptive Cruise Control Metric')
-
-
-wireframe(metric2 ~ y*x, data=fixed_z, scales=list(arrows=FALSE), zlim = c(90000, 200000),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = 'Adaptive Cruise Control Metric')
-
-wireframe(metric2 ~ y*x, data=fixed_z, scales=list(arrows=FALSE), zlim = c(90000, 200000),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = 'Adaptive Cruise Control Metric')
-
-
+dev.off()
