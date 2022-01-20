@@ -9,9 +9,12 @@ library(grid)
 library(rpart)
 
 data_path <- 'data/'
-image_path <- 'analyses/images/'
+image_path <- 'analyses/images/timeseries/'
 
 xlim_max <- 231
+font_size <- 20
+x_width <- 600
+y_width <- 400
 font_size <- 20
 
 files <- list.files(data_path)
@@ -48,8 +51,9 @@ for(file in files){
     ylab('Speed') +
     ylim(c(0,800)) 
   
-  filename <- substring(file,1,nchar(file)-4)
-  png(file=paste(image_path, filename,".png",sep=""),width = xlim_max*4, height = xlim_max*2)
+  config_time <- substring(file,5,nchar(file)-4)
+  filename <- paste0("timeseries_",config_time)
+  png(file=paste(image_path, filename,".png",sep=""),width = x_width, height = y_width)
   grid.newpage()
   grid.draw(rbind(ggplotGrob(color),ggplotGrob(distance),ggplotGrob(angle),ggplotGrob(speed)))
   dev.off()
