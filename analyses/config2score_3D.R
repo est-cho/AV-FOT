@@ -69,35 +69,49 @@ grouped_df <- df %>% group_by(x,y,z) %>% summarise(n=n(),mean_metric1=mean(metri
 mean_z_140 <- grouped_df %>% filter(z==140)
 mean_z_180 <- grouped_df %>% filter(z==180)
 mean_z_220 <- grouped_df %>% filter(z==220)
+mean_z_all <- grouped_df %>% filter(z==140 | z==180 | z==220)
+min_metric1_all <- min(mean_z_all$mean_metric1)
+max_metric1_all <- max(mean_z_all$mean_metric1)
+min_metric2_all <- min(mean_z_all$mean_metric2)
+max_metric2_all <- max(mean_z_all$mean_metric2)
+
+dummy1 <- data.frame(x=0.3,y=0.3,z=220,n=20,mean_metric1=min_metric1_all,mean_metric2=min_metric2_all)
+dummy2 <- data.frame(x=0.9,y=2.1,z=220,n=20,mean_metric1=max_metric1_all,mean_metric2=max_metric2_all)
+mean_z_140 <- rbind(mean_z_140,dummy1,dummy2)
+mean_z_180 <- rbind(mean_z_180,dummy1,dummy2)
+mean_z_220 <- rbind(mean_z_220,dummy1,dummy2)
+
+grouped_df %>% filter(z==220) %>% arrange(desc(mean_metric2))
+grouped_df %>% filter(z==220) %>% arrange(mean_metric2)
 
 wireframe(mean_metric1 ~ y*x, data=mean_z_140, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list(metric1_label, rot = 90))
+          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(0,max_metric1_all),
+          default.scales=list(font=5))
 
 wireframe(mean_metric1 ~ y*x, data=mean_z_180, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list(metric1_label, rot = 90))
+          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(0,max_metric1_all))
 
 wireframe(mean_metric1 ~ y*x, data=mean_z_220, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list(metric1_label, rot = 90))
+          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(0,max_metric1_all))
 
 wireframe(mean_metric2 ~ y*x, data=mean_z_140, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list(metric2_label, rot = 90))
+          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(min_metric2_all,max_metric2_all))
 
 wireframe(mean_metric2 ~ y*x, data=mean_z_180, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list(metric2_label, rot = 90))
+          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(min_metric2_all,max_metric2_all))
 
 wireframe(mean_metric2 ~ y*x, data=mean_z_220, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list(metric2_label, rot = 90))
-
+          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(min_metric2_all,max_metric2_all))
 
