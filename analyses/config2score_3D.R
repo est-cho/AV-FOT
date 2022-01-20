@@ -1,11 +1,15 @@
 rm(list = ls())
 
-library(dplyr)
-library(ggplot2)
-
 if (substring(getwd(),nchar(getwd())-15,nchar(getwd()))=='/AV-FOT/analyses'){
   setwd("../")
 }
+
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(rpart)
+library(lattice)
+
 
 data_path <- 'data/'
 image_path <- 'analyses/images/3d_plot/'
@@ -62,71 +66,38 @@ for(file in files){
 
 grouped_df <- df %>% group_by(x,y,z) %>% summarise(n=n(),mean_metric1=mean(metric1),mean_metric2=mean(metric2)) %>% arrange(x,y,z)
 
+mean_z_140 <- grouped_df %>% filter(z==140)
+mean_z_180 <- grouped_df %>% filter(z==180)
+mean_z_220 <- grouped_df %>% filter(z==220)
 
-library(plot3D)
-library(lattice)
-library(scatterplot3d)
-
-fixed_z <- df %>%
-  filter(z == 220)
-
-max(fixed_z$metric1)
-min(fixed_z$metric1)
-s3d <- scatterplot3d(fixed_z$x, fixed_z$y, fixed_z$metric1,pch=16, cex.symbols=1,
-                     xlab = 'x', ylab='y', zlab=metric1_label)
-
-fixed_mean_z <- grouped_df %>% filter(z==220)
-
-s3d_mean_lka <- scatterplot3d(fixed_mean_z$x, fixed_mean_z$y, fixed_mean_z$mean_metric1,pch=16, cex.symbols=1,
-                     xlab = 'x', ylab='y', zlab=metric1_label)
-s3d_mean_acc <- scatterplot3d(grouped_df$x, grouped_df$y, grouped_df$mean_metric2,pch=16, cex.symbols=1,
-                          xlab = 'x', ylab='y', zlab=metric2_label)
-
-
-grouped_df %>% filter(z==220) %>% arrange(desc(mean_metric2))
-grouped_df %>% filter(z==220) %>% arrange(mean_metric2)
-
-wireframe(mean_metric1 ~ x*y, data=fixed_mean_z, scales=list(arrows=FALSE), zlim = c(0, 300),
-          aspect=c(1,.6), drape=TRUE,
+wireframe(mean_metric1 ~ y*x, data=mean_z_140, scales=list(arrows=FALSE),
+          aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = metric1_label)
+          zlab = list(metric1_label, rot = 90))
 
-wireframe(metric1 ~ y*x, data=fixed_z, scales=list(arrows=FALSE),
-          aspect=c(1,.6), drape=TRUE,
+wireframe(mean_metric1 ~ y*x, data=mean_z_180, scales=list(arrows=FALSE),
+          aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = metric1_label)
+          zlab = list(metric1_label, rot = 90))
 
-
-wireframe(metric1 ~ x*y, data=fixed_z, scales=list(arrows=FALSE), zlim = c(0, 180),
-          aspect=c(1,.6), drape=TRUE,
+wireframe(mean_metric1 ~ y*x, data=mean_z_220, scales=list(arrows=FALSE),
+          aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = metric1_label)
+          zlab = list(metric1_label, rot = 90))
 
-wireframe(metric1 ~ y*x, data=fixed_z, scales=list(arrows=FALSE), zlim = c(0, 180),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = metric1_label)
+wireframe(mean_metric2 ~ y*x, data=mean_z_140, scales=list(arrows=FALSE),
+          aspect=c(1,1), drape=TRUE,
+          par.settings=list(axis.line=list(col='transparent')),
+          zlab = list(metric2_label, rot = 90))
 
+wireframe(mean_metric2 ~ y*x, data=mean_z_180, scales=list(arrows=FALSE),
+          aspect=c(1,1), drape=TRUE,
+          par.settings=list(axis.line=list(col='transparent')),
+          zlab = list(metric2_label, rot = 90))
 
-wireframe(metric2 ~ x*y, data=fixed_z, scales=list(arrows=FALSE),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = metric2_label)
+wireframe(mean_metric2 ~ y*x, data=mean_z_220, scales=list(arrows=FALSE),
+          aspect=c(1,1), drape=TRUE,
+          par.settings=list(axis.line=list(col='transparent')),
+          zlab = list(metric2_label, rot = 90))
 
-
-wireframe(metric2 ~ x*y, data=fixed_z, scales=list(arrows=FALSE), zlim = c(90000, 200000),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = metric2_label)
-
-
-wireframe(metric2 ~ y*x, data=fixed_z, scales=list(arrows=FALSE), zlim = c(90000, 200000),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = metric2_label)
-
-wireframe(metric2 ~ y*x, data=fixed_z, scales=list(arrows=FALSE), zlim = c(90000, 200000),
-          aspect=c(1,.6), drape=TRUE,
-          par.settings=list(axis.line=list(col='transparent')), 
-          zlab = metric2_label)
 
