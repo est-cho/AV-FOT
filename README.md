@@ -54,4 +54,4 @@ Config. (x=0.4, y=0.6, z=140)
 <img src="/analyses/images/boxplot/boxplot_x_1.5_200_lka.png" width="450">
 
 - Changes in acehievement of autonomous driving goals affected by configurations (three independent variables)
-<img src="/analyses/images/3d_plot/lka_z_220.png" width="450">
+<img src="/analyses/images/3d_plot/lka.png" width="450">
