@@ -17,9 +17,11 @@ error_type <- 'MSE'
 metric1_label <- "Lane-Keeping MSE"
 metric2_label <- "Adaptive Cruise Control MSE"
 
-x_width <- 600
-y_width <- 450
-font_size <- 20
+x_min_lim <- 0.4
+x_max_lim <- 0.8
+
+y_min_lim <- 0.6
+y_max_lim <- 1.8
 
 MAE <- function(timeseries,goal){
   loss <- 0
@@ -81,37 +83,39 @@ mean_z_140 <- rbind(mean_z_140,dummy1,dummy2)
 mean_z_180 <- rbind(mean_z_180,dummy1,dummy2)
 mean_z_220 <- rbind(mean_z_220,dummy1,dummy2)
 
-grouped_df %>% filter(z==220) %>% arrange(desc(mean_metric2))
-grouped_df %>% filter(z==220) %>% arrange(mean_metric2)
-
 wireframe(mean_metric1 ~ y*x, data=mean_z_140, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(0,max_metric1_all),
+          zlab = list("", rot = 90),ylim = c(x_min_lim,x_max_lim),xlim=c(y_min_lim,y_max_lim),zlim=c(0,max_metric1_all),
           default.scales=list(font=5))
 
 wireframe(mean_metric1 ~ y*x, data=mean_z_180, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(0,max_metric1_all))
+          zlab = list("", rot = 90),ylim = c(x_min_lim,x_max_lim),xlim=c(y_min_lim,y_max_lim),zlim=c(0,max_metric1_all),
+          default.scales=list(font=5))
 
 wireframe(mean_metric1 ~ y*x, data=mean_z_220, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(0,max_metric1_all))
+          zlab = list("", rot = 90),ylim = c(x_min_lim,x_max_lim),xlim=c(y_min_lim,y_max_lim),zlim=c(0,max_metric1_all),
+          default.scales=list(font=5))
 
 wireframe(mean_metric2 ~ y*x, data=mean_z_140, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(min_metric2_all,max_metric2_all))
+          zlab = list("", rot = 90),ylim = c(x_min_lim,x_max_lim),xlim=c(y_min_lim,y_max_lim),zlim=c(min_metric2_all,max_metric2_all),
+          default.scales=list(font=5))
 
 wireframe(mean_metric2 ~ y*x, data=mean_z_180, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(min_metric2_all,max_metric2_all))
+          zlab = list("", rot = 90),ylim = c(x_min_lim,x_max_lim),xlim=c(y_min_lim,y_max_lim),zlim=c(min_metric2_all,max_metric2_all),
+          default.scales=list(font=5))
 
 wireframe(mean_metric2 ~ y*x, data=mean_z_220, scales=list(arrows=FALSE),
           aspect=c(1,1), drape=TRUE,
           par.settings=list(axis.line=list(col='transparent')),
-          zlab = list("", rot = 90),ylim = c(0.4,0.8),xlim=c(0.6,1.8),zlim=c(min_metric2_all,max_metric2_all))
+          zlab = list("", rot = 90),ylim = c(x_min_lim,x_max_lim),xlim=c(y_min_lim,y_max_lim),zlim=c(min_metric2_all,max_metric2_all),
+          default.scales=list(font=5))
 
