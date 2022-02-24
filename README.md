@@ -65,3 +65,35 @@ Config. (x=0.4, y=0.6, z=140)
 
 - Changes in acehievement of autonomous driving goals affected by configurations (three independent variables)
 <img src="/analyses/images/3d_plot/lka.png" width="1000">
+
+## 5. How to Use the Data
+
+### Downloading the Data
+To download our dataset:
+
+1. Click the "Code" button on the GitHub page
+2. Click the "Download ZIP" button
+
+To clone our repository:
+
+1. Open terminal
+2.  `git clone https://github.com/est-cho/AV-FOT.git`
+
+### Data Formats and Features
+
+The data collected from the autonomous LEGO vehicle are written to .csv files. The name of data log is formatted as `log_<x>_<y>_<z>_all_<timestamp>.csv`, which captures the x, y, and z configurations and the time of the test conducted.
+
+The data logs contain the time-series data of the following information:
+
+- `time`: time since the start in millisecond
+- `color`: color sensor reading in percentage
+- `angle`: computed turn rate in degrees per second
+- `distance`: ultrasonic sensor reading in millimeter
+- `speed`: computed speed in millimeters per second
+- `color_dev`: color deviation, difference in color value from the threshold
+- `color_int`: color integral, sum of color deviations
+- `color_der`: color derivative, change in color deviation from the last color deviation
+- `speed_dev`: distance deviation, difference in distance value from the threshold
+- `speed_int`: distance integral, sum of distance deviations
+- `speed_der`: distance derivative, change in distance deviation from the last distance deviation
+
