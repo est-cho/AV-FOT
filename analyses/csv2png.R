@@ -27,28 +27,28 @@ for(file in files){
     theme(axis.title.x = element_blank(),axis.ticks.x = element_blank(),axis.text.x = element_blank(),panel.background = element_blank(),axis.line=element_line(size=0.5), text=element_text(family="Times New Roman", face="bold", size=font_size)) +
     xlim(c(0,xlim_max)) +
     xlab('Time (x50ms)') +
-    ylab('Color') +
+    ylab('Color (%)') +
     ylim(c(0,100))
   
   distance <- ggplot(data,aes(x=tick,y=distance)) + geom_point(size=0.5,col=3) +
     theme(axis.title.x = element_blank(),axis.ticks.x = element_blank(),axis.text.x = element_blank(),panel.background = element_blank(),axis.line=element_line(size=0.5), text=element_text(family="Times New Roman", face="bold", size=font_size)) +
     xlim(c(0,xlim_max)) +
     xlab('Time (x50ms)') +
-    ylab('Distance') +
+    ylab('Distance (mm)') +
     ylim(c(0,1000))
   
   angle <- ggplot(data,aes(x=tick,y=angle)) + geom_point(size=0.5,col=4) +
     theme(axis.title.x = element_blank(),axis.ticks.x = element_blank(),axis.text.x = element_blank(),panel.background = element_blank(),axis.line=element_line(size=0.5), text=element_text(family="Times New Roman", face="bold", size=font_size)) +
     xlim(c(0,xlim_max)) +
     xlab('Time (x50ms)') +
-    ylab('Angle') +
+    ylab('Angle (deg/s)') +
     ylim(c(-25,25))
   
   speed <- ggplot(data,aes(x=tick,y=speed)) + geom_point(size=0.5,col=5) +
     theme(panel.background = element_blank(),axis.line=element_line(size=0.5), text=element_text(family="Times New Roman", face="bold", size=font_size)) +
     xlim(c(0,xlim_max)) +
     xlab('Time (x50ms)') +
-    ylab('Speed') +
+    ylab('Speed (mm/s)') +
     ylim(c(0,800)) 
   
   config_time <- substring(file,5,nchar(file)-4)
