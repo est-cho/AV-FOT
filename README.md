@@ -1,6 +1,6 @@
-# Field Operational Test of Self-Adaptive Systems in a Continuous Configuration Space
+# Hands-On Field Operational Test Dataset of a Multi-Controller CPS
 
-This is the repository for our paper (Yong-Jun Shin et al., Field Operational Test of Multi-Objective and Multi-Controller Self-Adaptive Systems in a Continuous Configuration Space: a Case Study on the Autonomous Vehicle (in review)). 
+This is the repository for our paper (Yong-Jun Shin, Esther Cho, Hansu Kim, and Doo-Hwan Bae. "Hands-On Field Operational Test Dataset of a Multi-Controller CPS: a Modeled Case Study on Autonomous Driving" (in review)). 
 
 ## 1. Scenario Description
 
