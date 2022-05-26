@@ -1,6 +1,6 @@
 # Hands-On Field Operational Test Dataset of a Multi-Controller CPS
 
-This is the repository for our paper (Yong-Jun Shin, Esther Cho, Hansu Kim, and Doo-Hwan Bae. "Hands-On Field Operational Test Dataset of a Multi-Controller CPS: a Modeled Case Study on Autonomous Driving" (in review)). 
+This is the repository for our paper (Yong-Jun Shin, Esther Cho, Hansu Kim, and Doo-Hwan Bae. "Hands-On Field Operational Test Dataset of a Multi-Controller CPS: a Modeled Case Study on Autonomous Driving" (17th Annual System of Systems Engineering Conference)). 
 
 ## 1. Scenario Description
 
